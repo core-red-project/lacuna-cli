@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake clang ninja-build
+
+    - name: Build
+      env:
+        CC: clang
+        CXX: clang++
+      run: |
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+        cmake --build build
+
+    - name: Package Release Binary
+      run: |
+        mkdir -p lacuna-release
+        cp build/lacuna lacuna-release/
+        cp README.md LICENSE lacuna-release/
+        tar -czf lacuna-linux-amd64.tar.gz -C lacuna-release .
+
+    - name: Upload Release Assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: lacuna-linux-amd64.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

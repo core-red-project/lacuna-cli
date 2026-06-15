@@ -1,0 +1,31 @@
+# CMake build directories and files
+/build/
+/cmake-build-debug/
+/cmake-build-release/
+CMakeCache.txt
+CMakeFiles/
+CMakeMembers
+Makefile
+cmake_install.cmake
+
+# Compiled binaries and object files
+*.o
+*.a
+*.so
+*.dylib
+*.out
+lacuna
+
+# IDE metadata
+/.idea/
+/.vscode/
+*.suo
+*.user
+
+# macOS system noise
+.DS_Store
+
+# Test outputs and temporary data files
+*.lac
+*.decompressed
+tmp/

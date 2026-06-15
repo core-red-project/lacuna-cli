@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake clang clang-format clang-tidy ninja-build
+
+    - name: Check Formatting
+      run: |
+        find src/ -name '*.cpp' -o -name '*.hpp' | xargs clang-format --dry-run --Werror
+
+    - name: Configure CMake
+      env:
+        CC: clang
+        CXX: clang++
+      run: |
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build and Lint
+      run: |
+        cmake --build build
+
+    - name: Run Tests
+      run: |
+        make test
