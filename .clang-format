@@ -31,7 +31,6 @@ BraceWrapping:
   AfterExternBlock: false
   BeforeElse: false
   BeforeWhile: false
-  IndentSpaces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true

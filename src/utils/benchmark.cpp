@@ -1,15 +1,16 @@
 #include "benchmark.hpp"
-#include "core/rle.hpp"
-#include "core/huffman.hpp"
-#include "utils/file_io.hpp"
 
-#include <chrono>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
 #include <algorithm>
 #include <cctype>
+#include <chrono>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+
+#include "core/huffman.hpp"
+#include "core/rle.hpp"
+#include "utils/file_io.hpp"
 
 namespace lacuna::utils {
 
@@ -27,7 +28,8 @@ void scan_recursive(const std::filesystem::path& dir, std::vector<std::filesyste
             std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) {
                 return std::tolower(c);
             });
-            if (ext == ".json" || ext == ".yaml" || ext == ".yml" || ext == ".toml" || ext == ".txt") {
+            if (ext == ".json" || ext == ".yaml" || ext == ".yml" || ext == ".toml" ||
+                ext == ".txt") {
                 files.push_back(entry.path());
             }
         } else if (entry.is_directory(type_ec)) {
@@ -99,7 +101,8 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
 
     std::vector<std::filesystem::path> files = scan_directory(dir_path);
     if (files.empty()) {
-        std::cout << "No matching files (.json, .yaml, .yml, .toml, .txt) found in: " << dir_path << "\n";
+        std::cout << "No matching files (.json, .yaml, .yml, .toml, .txt) found in: " << dir_path
+                  << "\n";
         return true;
     }
 
@@ -113,7 +116,8 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
         }
 
         // Read original data in memory
-        std::string original_data((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+        std::string original_data((std::istreambuf_iterator<char>(in)),
+                                  std::istreambuf_iterator<char>());
         uint64_t original_size = original_data.size();
 
         // Run trial RLE
@@ -130,8 +134,10 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
         res.original_size = original_size;
 
         if (original_size > 0) {
-            res.rle_ratio = (1.0 - (static_cast<double>(rle_res.compressed_size) / original_size)) * 100.0;
-            res.huff_ratio = (1.0 - (static_cast<double>(huff_res.compressed_size) / original_size)) * 100.0;
+            res.rle_ratio =
+                (1.0 - (static_cast<double>(rle_res.compressed_size) / original_size)) * 100.0;
+            res.huff_ratio =
+                (1.0 - (static_cast<double>(huff_res.compressed_size) / original_size)) * 100.0;
         } else {
             res.rle_ratio = 0.0;
             res.huff_ratio = 0.0;
@@ -151,24 +157,24 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
     }
 
     // Print table header
-    std::cout << std::left 
-              << std::setfill('-') << std::setw(105) << "" << std::setfill(' ') << "\n";
-    std::cout << "| " << std::setw(30) << "File Name"
-              << " | " << std::setw(11) << "Orig Size"
-              << " | " << std::setw(11) << "RLE Ratio"
-              << " | " << std::setw(11) << "Huff Ratio"
-              << " | " << std::setw(11) << "RLE Time"
-              << " | " << std::setw(11) << "Huff Time"
-              << " | " << std::setw(11) << "Winner"
-              << " |\n";
-    std::cout << std::left 
-              << std::setfill('-') << std::setw(105) << "" << std::setfill(' ') << "\n";
+    std::cout << std::left << std::setfill('-') << std::setw(105) << "" << std::setfill(' ')
+              << "\n";
+    std::cout << "| " << std::setw(30) << "File Name";
+    std::cout << " | " << std::setw(11) << "Orig Size";
+    std::cout << " | " << std::setw(11) << "RLE Ratio";
+    std::cout << " | " << std::setw(11) << "Huff Ratio";
+    std::cout << " | " << std::setw(11) << "RLE Time";
+    std::cout << " | " << std::setw(11) << "Huff Time";
+    std::cout << " | " << std::setw(11) << "Winner";
+    std::cout << " |\n";
+    std::cout << std::left << std::setfill('-') << std::setw(105) << "" << std::setfill(' ')
+              << "\n";
 
     std::cout << std::fixed << std::setprecision(2);
     for (const auto& res : results) {
         // Format original size
         std::string orig_sz_str = std::to_string(res.original_size) + " B";
-        
+
         // Format timings
         std::stringstream rle_t_ss, huff_t_ss;
         rle_t_ss << std::fixed << std::setprecision(3) << res.rle_time_ms << " ms";
@@ -185,18 +191,18 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
         rle_r_ss << std::fixed << std::setprecision(2) << res.rle_ratio << "%";
         huff_r_ss << std::fixed << std::setprecision(2) << res.huff_ratio << "%";
 
-        std::cout << "| " << std::setw(30) << fn
-                  << " | " << std::setw(11) << orig_sz_str
-                  << " | " << std::setw(11) << rle_r_ss.str()
-                  << " | " << std::setw(11) << huff_r_ss.str()
-                  << " | " << std::setw(11) << rle_t_ss.str()
-                  << " | " << std::setw(11) << huff_t_ss.str()
-                  << " | " << std::setw(11) << res.recommended_algo
-                  << " |\n";
+        std::cout << "| " << std::setw(30) << fn;
+        std::cout << " | " << std::setw(11) << orig_sz_str;
+        std::cout << " | " << std::setw(11) << rle_r_ss.str();
+        std::cout << " | " << std::setw(11) << huff_r_ss.str();
+        std::cout << " | " << std::setw(11) << rle_t_ss.str();
+        std::cout << " | " << std::setw(11) << huff_t_ss.str();
+        std::cout << " | " << std::setw(11) << res.recommended_algo;
+        std::cout << " |\n";
     }
 
-    std::cout << std::left 
-              << std::setfill('-') << std::setw(105) << "" << std::setfill(' ') << "\n";
+    std::cout << std::left << std::setfill('-') << std::setw(105) << "" << std::setfill(' ')
+              << "\n";
 
     return true;
 }

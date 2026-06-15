@@ -27,7 +27,8 @@ public:
      * @param expected_size The uncompressed size expected in bytes.
      * @return The total decompressed bytes on success, std::nullopt on corruption or error.
      */
-    virtual std::optional<uint64_t> decompress(std::istream& in, std::ostream& out, uint64_t expected_size) = 0;
+    virtual std::optional<uint64_t>
+    decompress(std::istream& in, std::ostream& out, uint64_t expected_size) = 0;
 };
 
 } // namespace lacuna::core

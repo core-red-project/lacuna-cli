@@ -10,7 +10,7 @@ namespace lacuna::utils {
 
 /**
  * @brief Binary Header for Lacuna compressed files (.lac).
- * 
+ *
  * Layout:
  * - Magic Bytes: 4 bytes ("LAC\0")
  * - Version: 1 byte (0x01)

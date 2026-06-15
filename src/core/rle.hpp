@@ -13,7 +13,8 @@ public:
     ~RleCompressor() override = default;
 
     bool compress(std::istream& in, std::ostream& out) override;
-    std::optional<uint64_t> decompress(std::istream& in, std::ostream& out, uint64_t expected_size) override;
+    std::optional<uint64_t>
+    decompress(std::istream& in, std::ostream& out, uint64_t expected_size) override;
 };
 
 } // namespace lacuna::core

@@ -1,4 +1,5 @@
 #include "huffman.hpp"
+
 #include <algorithm>
 #include <array>
 #include <vector>
@@ -12,7 +13,8 @@ struct BitWriter {
     uint8_t current_byte{0};
     int bit_count{0};
 
-    explicit BitWriter(std::ostream& o) : out(o) {}
+    explicit BitWriter(std::ostream& o) : out(o) {
+    }
 
     bool write_bit(int bit) {
         current_byte = static_cast<uint8_t>((current_byte << 1) | (bit & 1));
@@ -50,7 +52,8 @@ struct BitReader {
     uint8_t current_byte{0};
     int bit_count{0};
 
-    explicit BitReader(std::istream& i) : in(i) {}
+    explicit BitReader(std::istream& i) : in(i) {
+    }
 
     std::optional<int> read_bit() {
         if (bit_count == 0) {
@@ -67,7 +70,8 @@ struct BitReader {
     }
 };
 
-void generate_codes(const HuffmanNode* node, std::vector<bool>& current_code,
+void generate_codes(const HuffmanNode* node,
+                    std::vector<bool>& current_code,
                     std::vector<std::vector<bool>>& codes) {
     if (node->is_leaf()) {
         codes[node->value] = current_code;
@@ -198,8 +202,8 @@ bool HuffmanCompressor::compress(std::istream& in, std::ostream& out) {
     return writer.flush();
 }
 
-std::optional<uint64_t> HuffmanCompressor::decompress(std::istream& in, std::ostream& out,
-                                                      uint64_t expected_size) {
+std::optional<uint64_t>
+HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expected_size) {
     if (!in || !out) {
         return std::nullopt;
     }

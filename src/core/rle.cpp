@@ -1,4 +1,5 @@
 #include "rle.hpp"
+
 #include <vector>
 
 namespace lacuna::core {
@@ -57,7 +58,8 @@ bool RleCompressor::compress(std::istream& in, std::ostream& out) {
     return out.good();
 }
 
-std::optional<uint64_t> RleCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expected_size) {
+std::optional<uint64_t>
+RleCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expected_size) {
     if (!in || !out) {
         return std::nullopt;
     }
@@ -98,7 +100,7 @@ std::optional<uint64_t> RleCompressor::decompress(std::istream& in, std::ostream
                 has_count = true;
             } else {
                 uint8_t value = byte;
-                
+
                 if (total_decompressed + count > expected_size) {
                     return std::nullopt;
                 }

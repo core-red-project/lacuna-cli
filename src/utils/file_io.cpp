@@ -1,4 +1,5 @@
 #include "file_io.hpp"
+
 #include <filesystem>
 #include <iostream>
 
@@ -37,7 +38,8 @@ std::optional<Header> read_header(std::istream& in) {
     // Read and verify Magic Bytes
     std::array<char, 4> magic_buf{};
     in.read(magic_buf.data(), magic_buf.size());
-    if (in.gcount() != static_cast<std::streamsize>(magic_buf.size()) || magic_buf != Header::MAGIC) {
+    if (in.gcount() != static_cast<std::streamsize>(magic_buf.size()) ||
+        magic_buf != Header::MAGIC) {
         return std::nullopt;
     }
 

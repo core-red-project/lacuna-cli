@@ -1,10 +1,11 @@
 #pragma once
 
-#include "compressor.hpp"
 #include <memory>
 #include <queue>
 #include <unordered_map>
 #include <vector>
+
+#include "compressor.hpp"
 
 namespace lacuna::core {
 
@@ -17,11 +18,15 @@ struct HuffmanNode {
     std::unique_ptr<HuffmanNode> left;
     std::unique_ptr<HuffmanNode> right;
 
-    HuffmanNode(uint8_t val, uint64_t freq) : value(val), frequency(freq) {}
+    HuffmanNode(uint8_t val, uint64_t freq) : value(val), frequency(freq) {
+    }
     HuffmanNode(uint64_t freq, std::unique_ptr<HuffmanNode> l, std::unique_ptr<HuffmanNode> r)
-        : frequency(freq), left(std::move(l)), right(std::move(r)) {}
+        : frequency(freq), left(std::move(l)), right(std::move(r)) {
+    }
 
-    bool is_leaf() const { return !left && !right; }
+    bool is_leaf() const {
+        return !left && !right;
+    }
 };
 
 /**
@@ -56,9 +61,8 @@ public:
     ~HuffmanCompressor() override = default;
 
     bool compress(std::istream& in, std::ostream& out) override;
-    std::optional<uint64_t> decompress(std::istream& in,
-                                       std::ostream& out,
-                                       uint64_t expected_size) override;
+    std::optional<uint64_t>
+    decompress(std::istream& in, std::ostream& out, uint64_t expected_size) override;
 };
 
 } // namespace lacuna::core
