@@ -134,10 +134,12 @@ bool run_benchmark(const std::filesystem::path& dir_path) {
         res.original_size = original_size;
 
         if (original_size > 0) {
-            res.rle_ratio =
-                (1.0 - (static_cast<double>(rle_res.compressed_size) / original_size)) * 100.0;
-            res.huff_ratio =
-                (1.0 - (static_cast<double>(huff_res.compressed_size) / original_size)) * 100.0;
+            res.rle_ratio = (1.0 - (static_cast<double>(rle_res.compressed_size) /
+                                    static_cast<double>(original_size))) *
+                            100.0;
+            res.huff_ratio = (1.0 - (static_cast<double>(huff_res.compressed_size) /
+                                     static_cast<double>(original_size))) *
+                             100.0;
         } else {
             res.rle_ratio = 0.0;
             res.huff_ratio = 0.0;

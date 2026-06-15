@@ -1,5 +1,6 @@
 #include "rle.hpp"
 
+#include <cstdint>
 #include <vector>
 
 namespace lacuna::core {
@@ -22,10 +23,10 @@ bool RleCompressor::compress(std::istream& in, std::ostream& out) {
         return out.good();
     };
 
-    while (in.read(buffer.data(), buffer.size()) || in.gcount() > 0) {
+    while (in.read(buffer.data(), static_cast<std::streamsize>(buffer.size())) || in.gcount() > 0) {
         std::streamsize bytes_read = in.gcount();
         for (std::streamsize i = 0; i < bytes_read; ++i) {
-            uint8_t byte = static_cast<uint8_t>(buffer[i]);
+            auto byte = static_cast<uint8_t>(buffer[i]);
             if (!has_run) {
                 run_val = byte;
                 run_len = 1;
@@ -82,16 +83,16 @@ RleCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expected
 
     auto flush_out_buf = [&out, &out_buf]() {
         if (!out_buf.empty()) {
-            out.write(out_buf.data(), out_buf.size());
+            out.write(out_buf.data(), static_cast<std::streamsize>(out_buf.size()));
             out_buf.clear();
         }
         return out.good();
     };
 
-    while (in.read(in_buf.data(), in_buf.size()) || in.gcount() > 0) {
+    while (in.read(in_buf.data(), static_cast<std::streamsize>(in_buf.size())) || in.gcount() > 0) {
         std::streamsize bytes_read = in.gcount();
         for (std::streamsize i = 0; i < bytes_read; ++i) {
-            uint8_t byte = static_cast<uint8_t>(in_buf[i]);
+            auto byte = static_cast<uint8_t>(in_buf[i]);
             if (!has_count) {
                 count = byte;
                 if (count == 0) {

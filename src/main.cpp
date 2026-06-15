@@ -114,7 +114,7 @@ bool handle_compress(std::string_view input_path, std::optional<std::string_view
         serialized_data = std::move(best_result.serialized_data);
     }
 
-    out.write(serialized_data.data(), serialized_data.size());
+    out.write(serialized_data.data(), static_cast<std::streamsize>(serialized_data.size()));
     if (!out) {
         std::cerr << "Error: Failed to write compressed data to output file: " << output_path
                   << "\n";
@@ -200,7 +200,9 @@ bool handle_info(std::string_view input_path) {
 
     double ratio = 0.0;
     if (header_opt->original_size > 0) {
-        ratio = (1.0 - (static_cast<double>(compressed_size) / header_opt->original_size)) * 100.0;
+        ratio = (1.0 - (static_cast<double>(compressed_size) /
+                        static_cast<double>(header_opt->original_size))) *
+                100.0;
     }
 
     if (header_opt->algorithm_id == 0x01) {

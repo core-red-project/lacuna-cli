@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include "compressor.hpp"
 
 namespace lacuna::core {

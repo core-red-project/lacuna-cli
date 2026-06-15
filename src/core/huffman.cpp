@@ -134,10 +134,10 @@ bool HuffmanCompressor::compress(std::istream& in, std::ostream& out) {
     constexpr size_t buffer_size = 65536;
     std::vector<char> buffer(buffer_size);
 
-    while (in.read(buffer.data(), buffer.size()) || in.gcount() > 0) {
+    while (in.read(buffer.data(), static_cast<std::streamsize>(buffer.size())) || in.gcount() > 0) {
         std::streamsize bytes_read = in.gcount();
         for (std::streamsize i = 0; i < bytes_read; ++i) {
-            uint8_t byte = static_cast<uint8_t>(buffer[i]);
+            auto byte = static_cast<uint8_t>(buffer[i]);
             frequencies[byte]++;
         }
     }
@@ -152,8 +152,8 @@ bool HuffmanCompressor::compress(std::istream& in, std::ostream& out) {
 
     // Serialize frequency table
     // - Unique count: 2 bytes (little-endian)
-    uint8_t count_low = static_cast<uint8_t>(unique_count & 0xFF);
-    uint8_t count_high = static_cast<uint8_t>((unique_count >> 8) & 0xFF);
+    auto count_low = static_cast<uint8_t>(unique_count & 0xFF);
+    auto count_high = static_cast<uint8_t>((unique_count >> 8) & 0xFF);
     out.put(static_cast<char>(count_low));
     out.put(static_cast<char>(count_high));
 
@@ -189,10 +189,10 @@ bool HuffmanCompressor::compress(std::istream& in, std::ostream& out) {
 
     // 4. Compress data stream
     BitWriter writer(out);
-    while (in.read(buffer.data(), buffer.size()) || in.gcount() > 0) {
+    while (in.read(buffer.data(), static_cast<std::streamsize>(buffer.size())) || in.gcount() > 0) {
         std::streamsize bytes_read = in.gcount();
         for (std::streamsize i = 0; i < bytes_read; ++i) {
-            uint8_t byte = static_cast<uint8_t>(buffer[i]);
+            auto byte = static_cast<uint8_t>(buffer[i]);
             if (!writer.write_code(codes[byte])) {
                 return false;
             }
@@ -215,7 +215,7 @@ HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expe
         if (!in.get(low) || !in.get(high)) {
             return std::nullopt;
         }
-        uint16_t unique_count = static_cast<uint16_t>(
+        auto unique_count = static_cast<uint16_t>(
             static_cast<uint8_t>(low) | (static_cast<uint16_t>(static_cast<uint8_t>(high)) << 8));
         if (unique_count != 0 || in.peek() != EOF) {
             return std::nullopt; // Corrupted empty file representation
@@ -229,7 +229,7 @@ HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expe
     if (!in.get(low) || !in.get(high)) {
         return std::nullopt;
     }
-    uint16_t unique_count = static_cast<uint16_t>(
+    auto unique_count = static_cast<uint16_t>(
         static_cast<uint8_t>(low) | (static_cast<uint16_t>(static_cast<uint8_t>(high)) << 8));
     if (unique_count == 0 || unique_count > 256) {
         return std::nullopt;
@@ -243,7 +243,7 @@ HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expe
         if (!in.get(val_char)) {
             return std::nullopt;
         }
-        uint8_t value = static_cast<uint8_t>(val_char);
+        auto value = static_cast<uint8_t>(val_char);
 
         uint64_t freq = 0;
         for (size_t b = 0; b < 8; ++b) {
@@ -276,7 +276,7 @@ HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expe
         uint64_t remaining = expected_size;
         while (remaining > 0) {
             size_t to_write = std::min(static_cast<size_t>(remaining), out_buf.size());
-            out.write(out_buf.data(), to_write);
+            out.write(out_buf.data(), static_cast<std::streamsize>(to_write));
             if (!out) {
                 return std::nullopt;
             }
@@ -299,7 +299,7 @@ HuffmanCompressor::decompress(std::istream& in, std::ostream& out, uint64_t expe
 
     auto flush_out_buf = [&out, &out_buf]() {
         if (!out_buf.empty()) {
-            out.write(out_buf.data(), out_buf.size());
+            out.write(out_buf.data(), static_cast<std::streamsize>(out_buf.size()));
             out_buf.clear();
         }
         return out.good();
