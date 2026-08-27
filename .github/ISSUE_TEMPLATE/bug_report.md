@@ -12,15 +12,15 @@ assignees: ""
 
 ## Steps to reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Environment
 
-- OS: 
-- Lacuna version: 
-- C++20 (CMake >= 3.25): <!-- e.g. Clang 17, GCC 13, Apple Clang 15 -->
+- OS:
+- Lacuna version:
+- C++20 / CMake: <!-- e.g. Clang 17, GCC 13, Apple Clang 15, CMake 3.25+ -->
 
 ## Additional context
 

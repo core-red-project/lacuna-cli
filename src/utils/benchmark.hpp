@@ -18,6 +18,8 @@ struct TrialResult {
 struct BenchmarkResult {
     std::string file_name;
     uint64_t original_size{0};
+    size_t rle_size{0};
+    size_t huff_size{0};
     double rle_ratio{0.0};
     double huff_ratio{0.0};
     double rle_time_ms{0.0};
@@ -41,10 +43,15 @@ TrialResult run_trial(const std::string& original_data, uint8_t algo_id);
 std::vector<std::filesystem::path> scan_directory(const std::filesystem::path& dir_path);
 
 /**
- * @brief Runs benchmarking on all target files in the directory and prints a pristine ASCII table.
+ * @brief Runs benchmarking on all target files in the directory and outputs formatted table or
+ * JSON.
  * @param dir_path The directory path to benchmark.
+ * @param json_output Whether to output structured JSON format.
+ * @param quiet Whether to suppress non-error logs.
  * @return true on success, false if the directory could not be accessed.
  */
-bool run_benchmark(const std::filesystem::path& dir_path);
+bool run_benchmark(const std::filesystem::path& dir_path,
+                   bool json_output = false,
+                   bool quiet = false);
 
 } // namespace lacuna::utils

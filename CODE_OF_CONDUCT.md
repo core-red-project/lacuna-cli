@@ -47,4 +47,4 @@ This Code of Conduct applies to all project spaces: issues, pull requests, commi
 
 ---
 
-*Lacuna is A CoreRed Project. Part of the Sxnnyside Project.*
+_Lacuna is a Core Red Project. Part of the [Sxnnyside Project](https://sxnnysideproject.com)._

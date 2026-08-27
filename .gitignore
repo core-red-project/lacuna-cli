@@ -28,3 +28,5 @@ lacuna
 *.lac
 *.decompressed
 tmp/
+.cache/
+compile_commands.json

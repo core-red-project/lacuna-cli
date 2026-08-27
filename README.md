@@ -1,7 +1,8 @@
 # Lacuna
 
-![License](https://img.shields.io/badge/license-MIT-blue)
-![CI](https://github.com/core-red-project/lacuna-cli/actions/workflows/ci.yml/badge.svg)
+![Version](https://img.shields.io/badge/version-0.1.1-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+[![CI](https://github.com/core-red-project/lacuna-cli/workflows/CI/badge.svg)](https://github.com/core-red-project/lacuna-cli/actions)
 
 <p align="center">
   <strong>Zero-dependency ✦ Local-first ✦ Chunk-based binary compression</strong><br>
@@ -31,7 +32,7 @@ It implements Run-Length Encoding (RLE) and bit-level Huffman Coding, enabling t
 
 > *"An intentional absence: encoding silence and stripping redundancy to reveal the space left behind."*
 
-This is a CoreRed project, part of the Sxnnyside Project's experimental branch.
+This is a Core Red Project, part of the Sxnnyside Project's experimental branch.
 
 ## Features
 
@@ -45,8 +46,9 @@ This is a CoreRed project, part of the Sxnnyside Project's experimental branch.
 
 ### Prerequisites
 
-- CMake (>= 3.25)
+- CMake (>= 3.20)
 - C++20 Compiler (GCC >= 11, Clang >= 13, Apple Clang >= 14)
+- `just` (recommended)
 
 ### From Source
 
@@ -54,8 +56,7 @@ This is a CoreRed project, part of the Sxnnyside Project's experimental branch.
 git clone https://github.com/core-red-project/lacuna-cli.git
 cd lacuna-cli
 
-cmake -B build
-cmake --build build
+just build
 ```
 
 ## Usage
@@ -89,17 +90,17 @@ lacuna-cli/
 
 ## Contributing
 
-Contributions are accepted. See CONTRIBUTING.md for guidelines.
+Contributions are accepted. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-Before contributing, read the Code of Conduct.
+Before contributing, read the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 
-This project is licensed under the MIT — see the LICENSE file for details.
+This project is licensed under the MIT — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <p align="center">
-  <strong>Lacuna</strong> — A CoreRed Project<br>
+  <strong>Lacuna</strong> — A Core Red Project<br>
   <em>&copy; 2026 Sxnnyside Project</em>
 </p>

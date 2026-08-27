@@ -4,11 +4,11 @@
 
 If you find a security vulnerability in **Lacuna**, report it privately before disclosing it publicly.
 
-**Preferred channel:**  
+**Preferred channel:**
 Email — `legal.sxnnyside@sxnnysideproject.com`
 
-**Alternative:**  
-GitHub Private Security Advisory
+**Alternative:**
+[GitHub Private Security Advisory](https://github.com/core-red-project/lacuna-cli/security/advisories/new)
 
 ---
 
@@ -44,9 +44,9 @@ Public disclosure is expected after a fix is available. If a fix isn't possible,
 
 ## Scope
 
-This policy covers the **Lacuna** repository only.  
+This policy covers the **Lacuna** repository only.
 For ecosystem-wide security concerns, use the email above.
 
 ---
 
-*Lacuna is A CoreRed Project. Part of the Sxnnyside Project.*
+_Lacuna is a Core Red Project. Part of the [Sxnnyside Project](https://sxnnysideproject.com)._

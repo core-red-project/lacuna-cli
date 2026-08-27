@@ -4,12 +4,16 @@ Checks: >
   modernize-*,
   performance-*,
   -modernize-use-trailing-return-type,
+  -modernize-raw-string-literal,
   -readability-magic-numbers
 
 WarningsAsErrors: >
   bugprone-*,
   modernize-*,
-  performance-*
+  performance-*,
+  -modernize-use-trailing-return-type,
+  -modernize-raw-string-literal
+
 
 CheckOptions:
   - key:             readability-identifier-naming.ClassCase
